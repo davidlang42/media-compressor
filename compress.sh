@@ -4,17 +4,21 @@
 set -eu
 
 # remove existing files in output if they don't exist in input anymore
+echo Removing deleted files...
 (cd $OUTPUT_COMPRESSED_PATH && find . -mindepth 1 -type f -exec /remove_if_deleted.sh "{}" ';')
 
 #FUTURE check for duplicate input files
 
 # make all required dirs if they don't already exist
+echo Making directory structure...
 (cd $INPUT_RAW_PATH && find . -mindepth 1 -type d -exec mkdir -p "$OUTPUT_COMPRESSED_PATH/{}" ';')
 
 # trigger compress of each pdf file
+echo Compressing PDFs...
 find $INPUT_RAW_PATH -mindepth 1 -type f -iname "*.pdf" -printf '%P\n' | parallel -- /compress_pdf.sh {}
 
 # trigger re-encode of each audio file
+echo Compressing audio...
 find $INPUT_RAW_PATH -mindepth 1 -type f -iname "*.mp3" -printf '%P\n' | parallel -- /compress_ogg.sh {}
 find $INPUT_RAW_PATH -mindepth 1 -type f -iname "*.m4a" -printf '%P\n' | parallel -- /compress_ogg.sh {}
 find $INPUT_RAW_PATH -mindepth 1 -type f -iname "*.mpga" -printf '%P\n' | parallel -- /compress_ogg.sh {}
@@ -27,5 +31,6 @@ find $INPUT_RAW_PATH -mindepth 1 -type f -iname "*.aiff" -printf '%P\n' | parall
 #FUTURE zip FOLDERS which are named "*.zip" into zip files
 
 # remove empty files & dirs in OUTPUT_COMPRESSED_PATH
+echo Removing empty folders...
 find $OUTPUT_COMPRESSED_PATH -mindepth 1 -type f -empty -delete
 find $OUTPUT_COMPRESSED_PATH -mindepth 1 -type d -empty -delete
