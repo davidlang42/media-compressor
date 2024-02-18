@@ -7,7 +7,7 @@
 (cd $INPUT_RAW_PATH && find . -mindepth 1 -type d -exec mkdir -p "$OUTPUT_COMPRESSED_PATH/{}" ';')
 
 # trigger compress of each pdf file
-find $INPUT_RAW_PATH -mindepth 1 -type f -name "*.pdf" -printf '%P\n' | parallel -- /compress_pdf.sh {} #TODO make extension case insensitive
+find $INPUT_RAW_PATH -mindepth 1 -type f -iname "*.pdf" -printf '%P\n' | parallel -- /compress_pdf.sh {}
 
 #TODO trigger audio re-encoding: m4a, mp3, mpga, wma, aiff
 #TODO trigger video re-encoding: mp4, mkv, m4v
