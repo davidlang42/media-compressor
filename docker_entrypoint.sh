@@ -16,6 +16,11 @@ if [ -z "${PDF_GS_ARGS}" ]; then
     exit 1 # failed
 fi
 
+if [ -z "${OGG_FFMPEG_ARGS}" ]; then
+    echo "Must set environment variable OGG_FFMPEG_ARGS"
+    exit 1 # failed
+fi
+
 if [ -z "${RUN_AT_UTC_TIME}" ]; then
     echo "Must set environment variable RUN_AT_UTC_TIME"
     exit 1 # failed

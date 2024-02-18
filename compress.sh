@@ -11,7 +11,13 @@
 # trigger compress of each pdf file
 find $INPUT_RAW_PATH -mindepth 1 -type f -iname "*.pdf" -printf '%P\n' | parallel -- /compress_pdf.sh {}
 
-#TODO trigger audio re-encoding: m4a, mp3, mpga, wma, aiff
+# trigger re-encode of each audio file
+find $INPUT_RAW_PATH -mindepth 1 -type f -iname "*.mp3" -printf '%P\n' | parallel -- /compress_ogg.sh {}
+find $INPUT_RAW_PATH -mindepth 1 -type f -iname "*.m4a" -printf '%P\n' | parallel -- /compress_ogg.sh {}
+find $INPUT_RAW_PATH -mindepth 1 -type f -iname "*.mpga" -printf '%P\n' | parallel -- /compress_ogg.sh {}
+find $INPUT_RAW_PATH -mindepth 1 -type f -iname "*.wma" -printf '%P\n' | parallel -- /compress_ogg.sh {}
+find $INPUT_RAW_PATH -mindepth 1 -type f -iname "*.aiff" -printf '%P\n' | parallel -- /compress_ogg.sh {}
+
 #FUTURE trigger video re-encoding: mp4, mkv, m4v
 #FUTURE trigger image re-encoding: jpg, jpeg, tif, png
 #FUTURE convert word documents to PDF: doc, docx, odt
