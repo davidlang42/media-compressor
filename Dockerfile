@@ -18,7 +18,7 @@ ENV OUTPUT_COMPRESSED_PATH="/output_compressed"
 
 # default compression args
 ENV PDF_GS_ARGS="-dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook"
-ENV OGG_FFMPEG_ARGS="-c:a libvorbis -q:a 4"
+ENV OGG_FFMPEG_ARGS="-c:a libopus -b:a 64k"
 
 # run
 ENV RUN_ON_START=1
