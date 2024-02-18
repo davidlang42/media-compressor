@@ -23,5 +23,5 @@ ENV OGG_FFMPEG_ARGS="-c:a libopus -b:a 64k"
 
 # run
 ENV RUN_ON_START=1
-ENV RUN_AT_UTC_TIME="12:00"
+ENV RUN_AT_UTC_TIME="00:00"
 ENTRYPOINT ["/docker_entrypoint.sh"]
