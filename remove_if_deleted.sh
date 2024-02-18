@@ -17,7 +17,7 @@ then
 fi
 
 # remove from output if not found in input
-if ! find "$INPUT_RAW_PATH/$FILE_PATH" -maxdepth 1 -type f -name "$FILE_NAME" | grep . > /dev/null 2>&1
+if ! find "$INPUT_RAW_PATH/$FILE_PATH" -maxdepth 1 -type f -name "$FILE_NAME" 2>/dev/null | grep . > /dev/null 2>&1
 then
     rm "$OUTPUT_COMPRESSED_PATH/$1"
     echo Removed deleted file: $1
