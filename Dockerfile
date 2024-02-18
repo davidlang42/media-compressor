@@ -4,29 +4,21 @@ FROM ubuntu:latest
 RUN set -eux; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
-		openssh-server \
-		sudo bash nano git curl wget less htop zip unzip gzip jq iputils-ping \
-		python3 pip \
-		nodejs npm \
-		build-essential rustc cargo
-
-# create user
-ARG USERNAME=player
-RUN useradd -m $USERNAME && adduser $USERNAME sudo && usermod -s /usr/bin/bash $USERNAME
-RUN chown $USERNAME:$USERNAME /home/$USERNAME
-VOLUME /home/$USERNAME
-
-# configure SSH
-RUN mkdir /var/run/sshd
-RUN echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
-RUN echo "AllowUsers $USERNAME" >> /etc/ssh/sshd_config
-RUN echo "PermitRootLogin no" >> /etc/ssh/sshd_config
-EXPOSE 22
+		bash ghostscript parallel
 
 # copy files
 COPY --chmod=500 docker_entrypoint.sh /
+COPY --chmod=500 compress.sh /
+COPY --chmod=500 compress_pdf.sh /
+
+# paths which should be host mounted to
+ENV INPUT_RAW_PATH="/input_raw"
+ENV OUTPUT_COMPRESSED_PATH="/output_compressed"
+
+# default compression args
+ENV PDF_GS_ARGS="-dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook"
 
 # run
-ENV PLAYER_USERNAME=${USERNAME}
-WORKDIR /home/$USERNAME
-ENTRYPOINT ["/docker_entrypoint.sh"] # requires environment var PLAYER_PASSWORD to be set
+ENV RUN_ON_START=1
+ENV RUN_AT_UTC_TIME="12:00"
+ENTRYPOINT ["/docker_entrypoint.sh"]
