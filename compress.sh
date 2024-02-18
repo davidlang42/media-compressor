@@ -5,7 +5,7 @@ set -eu
 
 # remove existing files in output if they don't exist in input anymore
 echo Removing deleted files...
-(cd $OUTPUT_COMPRESSED_PATH && find . -mindepth 1 -type f -exec /remove_if_deleted.sh "{}" ';')
+find $OUTPUT_COMPRESSED_PATH -mindepth 1 -type f -printf '%P\n' | parallel -- /remove_if_deleted.sh {}
 
 #FUTURE check for duplicate input files
 
