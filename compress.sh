@@ -23,4 +23,6 @@ find $INPUT_RAW_PATH -mindepth 1 -type f -iname "*.aiff" -printf '%P\n' | parall
 #FUTURE convert word documents to PDF: doc, docx, odt
 #FUTURE zip FOLDERS which are named "*.zip" into zip files
 
-#TODO remove empty dirs in OUTPUT_COMPRESSED_PATH
+# remove empty files & dirs in OUTPUT_COMPRESSED_PATH
+find $OUTPUT_COMPRESSED_PATH -mindepth 1 -type f -empty -print -delete
+find $OUTPUT_COMPRESSED_PATH -mindepth 1 -type d -empty -print -delete
