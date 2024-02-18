@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+set -e
+
 if [ -z "${INPUT_RAW_PATH}" ] || [ ! -d "$INPUT_RAW_PATH" ]; then
     echo "Must set environment variable INPUT_RAW_PATH and mount the input folder to it"
     exit 1 # failed
@@ -30,6 +32,8 @@ if [ "$RUN_ON_START" == "1" ]; then
     /compress.sh
     echo Compress finished.
 fi
+
+set -u
 
 while true
 do

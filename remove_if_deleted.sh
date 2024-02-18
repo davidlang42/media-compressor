@@ -16,7 +16,7 @@ else
 fi
 
 # remove from output if not found in input
-if ! ls "$INPUT_RAW_PATH/$FILE"
+if ! ls "$INPUT_RAW_PATH/$FILE" 2> /dev/nul
 then
     rm "$OUTPUT_COMPRESSED_PATH/$1"
     echo Removed deleted file: $1
