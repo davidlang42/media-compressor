@@ -1,6 +1,8 @@
 #!/usr/bin/bash
 # requires env vars: INPUT_RAW_PATH, OUTPUT_COMPRESSED_PATH
 
+set -eu
+
 # remove existing files in output if they don't exist in input anymore
 (cd $OUTPUT_COMPRESSED_PATH && find . -mindepth 1 -type f -exec /remove_if_deleted.sh "{}" ';')
 

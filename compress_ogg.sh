@@ -1,6 +1,8 @@
 #!/usr/bin/bash
 # requires env vars: INPUT_RAW_PATH, OUTPUT_COMPRESSED_PATH, OGG_FFMPEG_ARGS
 
+set -eu
+
 if [ -z "$1" ]
 then
     echo Relative filename not provided.

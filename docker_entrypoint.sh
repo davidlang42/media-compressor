@@ -1,5 +1,4 @@
 #!/usr/bin/bash
-set -eux
 
 if [ -z "${INPUT_RAW_PATH}" ] || [ ! -d "$INPUT_RAW_PATH" ]; then
     echo "Must set environment variable INPUT_RAW_PATH and mount the input folder to it"
@@ -40,6 +39,10 @@ do
     echo Next run in $sleep_seconds seconds...
     sleep $sleep_seconds
     echo Running compress at $RUN_AT_UTC_TIME...
-    /compress.sh
-    echo Compress finished.
+    if /compress.sh
+    then
+        echo Compress finished.
+    else
+        echo Compress failed.
+    fi
 done

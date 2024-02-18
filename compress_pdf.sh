@@ -1,6 +1,8 @@
 #!/usr/bin/bash
 # requires env vars: INPUT_RAW_PATH, OUTPUT_COMPRESSED_PATH, PDF_GS_ARGS
 
+set -eu
+
 if [ -z "$1" ]
 then
     echo Relative filename not provided.
