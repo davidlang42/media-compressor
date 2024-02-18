@@ -1,12 +1,12 @@
 #!/usr/bin/bash
 set -eux
 
-if [ -z "${INPUT_RAW_PATH}" || ! -d "$INPUT_RAW_PATH" ]; then
+if [ -z "${INPUT_RAW_PATH}" ] || [ ! -d "$INPUT_RAW_PATH" ]; then
     echo "Must set environment variable INPUT_RAW_PATH and mount the input folder to it"
     exit 1 # failed
 fi
 
-if [ -z "${OUTPUT_COMPRESSED_PATH}" || ! -d "$OUTPUT_COMPRESSED_PATH" ]; then
+if [ -z "${OUTPUT_COMPRESSED_PATH}" ] || [ ! -d "$OUTPUT_COMPRESSED_PATH" ]; then
     echo "Must set environment variable OUTPUT_COMPRESSED_PATH and mount the output folder to it"
     exit 1 # failed
 fi
