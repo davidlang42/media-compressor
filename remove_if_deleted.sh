@@ -7,18 +7,20 @@ then
     exit 1
 fi
 
-FILE_PATH="$(dirname "$1")"
-FILE_NAME="$(basename "$1")"
+FILE_NO_EXT=${1%.*}
+FILE_EXT=${1##*.}
 
-# match any input extension if output extension is ogg
-if [[ "$FILE_NAME" == *.ogg ]]
-then
-    FILE_NAME="$(echo "$FILE_NAME" | rev | cut -f 2- -d '.' | rev).*"
+CANDIDATES=("$INPUT_RAW_PATH/$1") # the exact file
+if [ "$FILE_EXT" == "ogg" ]; then
+  CANDIDATES+=("$INPUT_RAW_PATH/$FILE_NO_EXT".*) # or anything which only differs by the extension
 fi
 
-# remove from output if not found in input
-if ! find "$INPUT_RAW_PATH/$FILE_PATH" -maxdepth 1 -type f -name "$FILE_NAME" 2>/dev/null | grep . > /dev/null 2>&1
-then
-    rm "$OUTPUT_COMPRESSED_PATH/$1"
-    echo Removed deleted file: $1
-fi
+for candidate in "${CANDIDATES[@]}"; do
+  if [ -f "$candidate" ]; then
+    exit # input file still exists, do nothing
+  fi
+done
+
+# input file has been deleted, delete the output
+rm "$OUTPUT_COMPRESSED_PATH/$1"
+echo Removed deleted file: "$1"
