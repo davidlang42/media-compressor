@@ -10,7 +10,7 @@ then
 fi
 
 # change extension to ogg
-FILE_NO_EXT="$(echo "$1" | rev | cut -f 2- -d '.' | rev)"
+FILE_NO_EXT=${1%.*}
 
 # compress if not found
 if ! [ -f "$OUTPUT_COMPRESSED_PATH/$FILE_NO_EXT.ogg" ]
