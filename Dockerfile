@@ -7,11 +7,11 @@ RUN set -eux; \
 		bash ghostscript parallel ffmpeg
 
 # copy files
-COPY --chmod=500 docker_entrypoint.sh /
-COPY --chmod=500 compress.sh /
-COPY --chmod=500 compress_pdf.sh /
-COPY --chmod=500 compress_ogg.sh /
-COPY --chmod=500 remove_if_deleted.sh /
+COPY --chmod=555 docker_entrypoint.sh /
+COPY --chmod=555 compress.sh /
+COPY --chmod=555 compress_pdf.sh /
+COPY --chmod=555 compress_ogg.sh /
+COPY --chmod=555 remove_if_deleted.sh /
 
 # paths which should be host mounted to
 ENV INPUT_RAW_PATH="/input_raw"
