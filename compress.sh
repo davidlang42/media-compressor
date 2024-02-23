@@ -32,5 +32,5 @@ find $INPUT_RAW_PATH -mindepth 1 -type f -iname "*.aiff" -printf '%P\n' | parall
 
 # remove empty files & dirs in OUTPUT_COMPRESSED_PATH
 echo Removing empty folders...
-find $OUTPUT_COMPRESSED_PATH -mindepth 1 -type f -empty -delete
-find $OUTPUT_COMPRESSED_PATH -mindepth 1 -type d -empty -delete
+find $OUTPUT_COMPRESSED_PATH -mindepth 1 -type f -empty -not -name ".*" -delete
+find $OUTPUT_COMPRESSED_PATH -mindepth 1 -type d -empty -not -name ".*" -delete
