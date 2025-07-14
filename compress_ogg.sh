@@ -15,6 +15,7 @@ FILE_NO_EXT=${1%.*}
 # compress if not found
 if ! [ -f "$OUTPUT_COMPRESSED_PATH/$FILE_NO_EXT.ogg" ]
 then
+    echo Compressing OGG: $1
     ffmpeg -hide_banner -loglevel error -i "$INPUT_RAW_PATH/$1" -y $OGG_FFMPEG_ARGS "$OUTPUT_COMPRESSED_PATH/$FILE_NO_EXT.tmp.ogg" # must end in .ogg for ffmpeg to know what to do
     mv "$OUTPUT_COMPRESSED_PATH/$FILE_NO_EXT.tmp.ogg" "$OUTPUT_COMPRESSED_PATH/$FILE_NO_EXT.ogg"
     FROM_SIZE=$(ls -lh "$INPUT_RAW_PATH/$1" | cut -d' ' -f5)
