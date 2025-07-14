@@ -1,11 +1,17 @@
 #!/usr/bin/bash
 # requires env vars: INPUT_RAW_PATH, OUTPUT_COMPRESSED_PATH
+# optional env vars: MAX_PARALLEL
 
 set -eu
 
+if [ -z "${MAX_PARALLEL}" ]; then
+    # if not set, use default
+    MAX_PARALLEL=8
+fi
+
 # remove existing files in output if they don't exist in input anymore
 echo Removing deleted files...
-find $OUTPUT_COMPRESSED_PATH -mindepth 1 -type f -printf '%P\n' | parallel -- /remove_if_deleted.sh {}
+find $OUTPUT_COMPRESSED_PATH -mindepth 1 -type f -printf '%P\n' | parallel -j $MAX_PARALLEL -- /remove_if_deleted.sh {}
 
 #FUTURE check for duplicate input files
 
@@ -15,15 +21,15 @@ echo Making directory structure...
 
 # trigger compress of each pdf file
 echo Compressing PDFs...
-find $INPUT_RAW_PATH -mindepth 1 -type f -iname "*.pdf" -printf '%P\n' | parallel -- /compress_pdf.sh {}
+find $INPUT_RAW_PATH -mindepth 1 -type f -iname "*.pdf" -printf '%P\n' | parallel -j $MAX_PARALLEL -- /compress_pdf.sh {}
 
 # trigger re-encode of each audio file
 echo Compressing audio...
-find $INPUT_RAW_PATH -mindepth 1 -type f -iname "*.mp3" -printf '%P\n' | parallel -- /compress_ogg.sh {}
-find $INPUT_RAW_PATH -mindepth 1 -type f -iname "*.m4a" -printf '%P\n' | parallel -- /compress_ogg.sh {}
-find $INPUT_RAW_PATH -mindepth 1 -type f -iname "*.mpga" -printf '%P\n' | parallel -- /compress_ogg.sh {}
-find $INPUT_RAW_PATH -mindepth 1 -type f -iname "*.wma" -printf '%P\n' | parallel -- /compress_ogg.sh {}
-find $INPUT_RAW_PATH -mindepth 1 -type f -iname "*.aiff" -printf '%P\n' | parallel -- /compress_ogg.sh {}
+find $INPUT_RAW_PATH -mindepth 1 -type f -iname "*.mp3" -printf '%P\n' | parallel -j $MAX_PARALLEL -- /compress_ogg.sh {}
+find $INPUT_RAW_PATH -mindepth 1 -type f -iname "*.m4a" -printf '%P\n' | parallel -j $MAX_PARALLEL -- /compress_ogg.sh {}
+find $INPUT_RAW_PATH -mindepth 1 -type f -iname "*.mpga" -printf '%P\n' | parallel -j $MAX_PARALLEL -- /compress_ogg.sh {}
+find $INPUT_RAW_PATH -mindepth 1 -type f -iname "*.wma" -printf '%P\n' | parallel -j $MAX_PARALLEL -- /compress_ogg.sh {}
+find $INPUT_RAW_PATH -mindepth 1 -type f -iname "*.aiff" -printf '%P\n' | parallel -j $MAX_PARALLEL -- /compress_ogg.sh {}
 
 #FUTURE trigger video re-encoding: mp4, mkv, m4v
 #FUTURE trigger image re-encoding: jpg, jpeg, tif, png
