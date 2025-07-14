@@ -2,12 +2,12 @@
 # requires env vars: INPUT_RAW_PATH, OUTPUT_COMPRESSED_PATH
 # optional env vars: MAX_PARALLEL
 
-set -eu
-
 if [ -z "${MAX_PARALLEL}" ]; then
     # if not set, use default
     MAX_PARALLEL=8
 fi
+
+set -eu
 
 # remove existing files in output if they don't exist in input anymore
 echo Removing deleted files...
